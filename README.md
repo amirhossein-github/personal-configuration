@@ -1,2 +1,3 @@
 # challenges
-Just say hello.
+
+- [Code Wars](./codewars.com/README.md)
