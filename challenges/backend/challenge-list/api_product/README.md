@@ -20,16 +20,16 @@ Data Structure
     "info": {},
     "products": [
         {
-            "id": 0,
-            "name": '',
-            "description": '',
-            "price": 00.00
+            "id": "0",
+            "name": "",
+            "description": "",
+            "price": "00.00"
         },
         {
-            "id": 0,
-            "name": '',
-            "description": '',
-            "price": 00.00
+            "id": "0",
+            "name": "",
+            "description": "",
+            "price": "00.00"
         }
     ]
 }
