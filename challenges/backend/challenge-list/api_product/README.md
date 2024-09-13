@@ -14,23 +14,21 @@ Methods
     4. DELETE
     5. PUT
 
-Data Structure
+Data Structure: ([data reference](https://github.com/benoitvallon/100-best-books/blob/master/books.json))
 ```json
-{
-    "info": {},
-    "products": [
-        {
-            "id": "0",
-            "name": "",
-            "description": "",
-            "price": "00.00"
-        },
-        {
-            "id": "0",
-            "name": "",
-            "description": "",
-            "price": "00.00"
-        }
-    ]
-}
+[
+    {
+        "author": "Virginia Woolf",
+        "country": "United Kingdom",
+        "imageLink": "images/to-the-lighthouse.jpg",
+        "language": "English",
+        "link": "https://en.wikipedia.org/wiki/To_the_Lighthouse\n",
+        "pages": "209",
+        "title": "To the Lighthouse",
+        "year": "1927",
+        "id": "43939d7d-a4ea-4604-ad78-40e3138459ee"
+    },
+    {},
+    {}
+]
 ```
