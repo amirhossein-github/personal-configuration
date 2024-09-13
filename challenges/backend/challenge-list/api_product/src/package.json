@@ -10,6 +10,7 @@
   "author": "@amirhossein-github",
   "license": "ISC",
   "dependencies": {
-    "nodemon": "^3.1.4"
+    "nodemon": "^3.1.4",
+    "uuid": "^10.0.0"
   }
 }

@@ -1,6 +1,7 @@
 const
     http = require('http'),
-    responsesManager = require('./tools/responseManager');
+    responsesManager = require('./tools/responseManager'),
+    { v4: uuidv4 } = require('uuid');
     
 // server init
 const
