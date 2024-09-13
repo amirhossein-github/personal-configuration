@@ -1,6 +1,7 @@
 const
-    http = require('http');
-
+    http = require('http'),
+    responsesManager = require('./tools/responseManager');
+    
 // server init
 const
     PORT = 3000,
@@ -12,12 +13,11 @@ function server(req, res){
 
     switch (url){
         case '/':
-            res.writeHead(200, { 'Content-Type': 'application/json' });
-            res.end(JSON.stringify({data: 'Hello World!'}));
+            responsesManager.code_200(req, res, {data: "Welcome to 'Simple API Product'"})
             break
 
         default:
-            res.writeHead(404);
-            res.end(JSON.stringify({[url]: '404, Not Found'}));
+            responsesManager.code_404(req, res);
+            break;
     }
 };
