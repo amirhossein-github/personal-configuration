@@ -25,8 +25,26 @@ function server(req, res){
             break
         
         case '/api/products/':
-            productController.get(req, res)
-            break;
+            switch (method) {
+                case 'GET':
+                    productController.get(req, res)
+                    break;
+
+                case 'POST':
+                    const postedData = productController.post(req, res)
+                    // console.log(postedData)
+                    // responsesManager.code_200(req, res, postedData??'Empty')
+                    break;
+
+                case 'OPTIONS':
+                    responsesManager.validOptions(req, res, ["GET", "POST", "OPTIONS"])
+                    break;
+            
+                default:
+                    responsesManager.code_404(req, res);
+                    break;
+            }
+            break
 
         default:
             responsesManager.code_404(req, res);
