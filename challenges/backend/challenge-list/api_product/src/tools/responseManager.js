@@ -14,9 +14,16 @@ function code_404(req, res){
     
 }
 
+function code_500(req, res, document){
+    res.writeHead(404, content_type.json);
+    res.end(JSON.stringify({data: "500, Internal Server Error", error: document}))
+    
+}
+
 const responsesManager = {
     code_200,
-    code_404
+    code_404,
+    code_500
 
 }
 

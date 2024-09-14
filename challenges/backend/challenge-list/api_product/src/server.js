@@ -1,16 +1,17 @@
 const
     http = require('http'),
     responsesManager = require('./tools/responseManager'),
-    automation = require('./tools/automation');
+    automation = require('./tools/automation'),
+    productController = require('./controller/product');
 
 // server init
 const
-    PORT = 3000,
+    PORT = 3001,
     SERVER = http.createServer(server).listen(PORT);
     
 // manage the server
 function server(req, res){
-    const { url } = req
+    const { url, method } = req
 
     switch (url){
         case '/':
@@ -22,10 +23,14 @@ function server(req, res){
             automation.setData()
             responsesManager.code_200(req, res, {data: "All data returned to the first state"})
             break
+        
+        case '/api/products/':
+            productController.get(req, res)
+            break;
 
         default:
             responsesManager.code_404(req, res);
             break;
-            
+
     }
 };
