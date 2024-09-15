@@ -20,6 +20,21 @@ function post(req, res){
         });
         
         req.on('end', function () {
+            // if data is empty
+            if (fullData === ''){
+                return responsesManager.code_200(req, res, {data: 'You have not sent any data'})
+
+            }
+
+            // if json can pars it as json
+            try {
+                JSON.parse(fullData);
+
+            } catch (e) {
+                return responsesManager.code_200(req, res, {data: 'The data structure you sent is not of type json'})
+
+            }
+
             const creation = productModel.create(JSON.parse(fullData)[0])
             creation ?
             responsesManager.code_200(req, res, {data: 'Your product has been added to the product list'}):

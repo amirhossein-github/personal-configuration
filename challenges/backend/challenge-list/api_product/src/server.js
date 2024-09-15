@@ -6,7 +6,7 @@ const
 
 // server init
 const
-    PORT = 3001,
+    PORT = 3000,
     SERVER = http.createServer(server).listen(PORT);
     
 // manage the server
@@ -31,9 +31,7 @@ function server(req, res){
                     break;
 
                 case 'POST':
-                    const postedData = productController.post(req, res)
-                    // console.log(postedData)
-                    // responsesManager.code_200(req, res, postedData??'Empty')
+                    productController.post(req, res)
                     break;
 
                 case 'OPTIONS':
@@ -41,7 +39,7 @@ function server(req, res){
                     break;
             
                 default:
-                    responsesManager.code_404(req, res);
+                    responsesManager.code_405(req, res);
                     break;
             }
             break
