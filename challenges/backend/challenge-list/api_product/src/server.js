@@ -17,12 +17,6 @@ function server(req, res){
         case /^\/$/.test(url):
             responsesManager.code_200(req, res, {data: "Welcome to 'Simple API Product'"})
             break
-
-        case /^\/reset\/$/.test(url):
-            // Setting the data to the initial state and also giving them an ID
-            automation.setData()
-            responsesManager.code_200(req, res, {data: "All data returned to the first state"})
-            break
         
         case /^\/api\/products\/$/.test(url):
             switch (method) {
@@ -31,7 +25,7 @@ function server(req, res){
                     break;
 
                 case 'POST':
-                    productController.change(req, res)
+                    productController.add(req, res)
                     break;
 
                 case 'OPTIONS':

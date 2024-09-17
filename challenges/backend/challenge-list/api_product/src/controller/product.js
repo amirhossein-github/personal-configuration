@@ -1,116 +1,91 @@
 const
+    method = require('./../tools/method'),
     responsesManager = require('./../tools/responseManager'),
-    productModel = require('./../model/product')
+    productModel = require('./../model/product');
     
+//* [DONE]
 function get(req, res){
+    // 1) Get data
+    // 1-a) without ID
+    let data
     const [,,,id] = req.url.split('/')
+    if (id === '') {
+        data = productModel.get()
 
-    if (id === ''){
-        try {
-            const data = productModel.get()
-            responsesManager.code_200(req, res, data)
-            
-        } catch (error) { responsesManager.code_500(req, res, error) }
+    // 1-b) with ID
     } else {
-        try {
-            const data = productModel.get(id)
-            responsesManager.code_200(req, res, data)
-            
-        } catch (error) { responsesManager.code_500(req, res, error) }
+        data = productModel.get(id)
+
+    }
+
+    // 2) Checking data
+    switch (data) {
+        // A) undefined
+        case undefined:
+            responsesManager.code_500(req, res); break;
+
+        // B) Empty
+        case '':
+            responsesManager.code_404(req, res); break;
+
+        // Z) If data found successfully
+        default:
+            responsesManager.code_200(req, res, data); break;
     }
 }
 
-function change(req, res){
-    const [,,,id] = req.url.split('/')
+//!
+function add(req, res){
+    // 1) Get data
+    const data = productModel.get()
 
-    if (id === ''){
-
-        let fullData = ''
-        try {
-            // GET DATA
-            req.on('data', function (chunk) {
-                fullData += chunk;
-            });
-            
-            req.on('end', function () {
-                // if data is empty
-                if (fullData === ''){
-                    return responsesManager.code_200(req, res, {data: 'You have not sent any data'})
-
-                }
-
-                // if json can pars it as json
-                try {
-                    JSON.parse(fullData);
-
-                } catch (e) {
-                    return responsesManager.code_200(req, res, {data: 'The data structure you sent is not of type json'})
-
-                }
-
-                const creation = productModel.create(JSON.parse(fullData)[0])
-                creation ?
-                responsesManager.code_200(req, res, {data: 'Your product has been added to the product list'}):
-                responsesManager.code_200(req, res, {data: 'Product data is not valid'})
-            });
-
-        } catch (error) { responsesManager.code_500(req, res, error) }
-
-    } else {
-        let fullData = ''
-        try {
-            // GET DATA
-            req.on('data', function (chunk) {
-                fullData += chunk;
-            });
-            
-            req.on('end', function () {
-
-                // if data is empty
-                if (fullData === ''){
-                    return responsesManager.code_200(req, res, {data: 'You have not sent any data'})
-
-                }
-
-                // if json can pars it as json
-                try {
-                    JSON.parse(fullData);
-
-                } catch (e) {
-                    return responsesManager.code_200(req, res, {data: 'The data structure you sent is not of type json'})
-
-                }
-
-                const creation = productModel.create(JSON.parse(fullData)[0], id)
-                creation ?
-                responsesManager.code_200(req, res, {data: 'Your product has been added to the product list'}):
-                responsesManager.code_200(req, res, {data: 'Product data is not valid'})
-            });
-
-        } catch (error) { responsesManager.code_500(req, res, error) }
+    // 2) Checking data
+    if (data === undefined){
+        responsesManager.code_500(req, res);
 
     }
-}
 
-function remove(req, res){
-
+    // 3) Read data from request body
+    let userData = '', jsonData;
     try {
-        // 1) ID
-        const [,,,id] = req.url.split('/')
+        req.on('data', function (chunk) {
+            userData += chunk;
+        });
+        req.on('end', function () {
+            
+            // 4) Data checking
+            // 4-a) If data is empty
+            if (userData === ''){
+                return responsesManager.code_200(req, res, {message: 'You have not sent any data'})
+                
+            }
+            // 4-b) If json can pars it as json
+            try {
+                jsonData = JSON.parse(userData)
 
-        // 2) Get full data
-        productModel.remove(id)
+            } catch (e) { return responsesManager.code_200(req, res, {message: 'The data structure you sent is not of type json'}) }
+            // 4-c) Valid data
+            if (!method.dataStructureChecking(jsonData)){
+                return responsesManager.code_200(req, res, {message: 'The data structure you sent is not valid'})
+            }
 
-        // 3) Make response
-        responsesManager.code_200(req, res, {data: 'The desired data was deleted'})
-    } catch (error) { responsesManager.code_500(req, res, error.message) }
+            //!---------------------------------------------------------------------------------------
+            return responsesManager.code_200(req, res, {data: 'Your item has been added to the list'})
+            //!---------------------------------------------------------------------------------------
+            
+            // 5) Adding valid data to database
+            productModel.add(jsonData)
+            responsesManager.code_200(req, res, {data: 'Your item has been added to the list'})
+        })
+    } catch (error) { 
+        responsesManager.code_500(req, res, {message: 'fail to read body request'})
+        console.log(`[ERROR][reading request body]: ${error}`)
+    }
 
 }
-
 const productController = {
     get,
-    change,
-    remove
+    add
 }
 
 module.exports = productController
