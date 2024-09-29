@@ -28,8 +28,6 @@ function get(id){
     } catch (error) { console.log(`[ERROR][reading file]: ${error}`) }
 }
 
-//!
-
 const productModel = {
     get
 }
