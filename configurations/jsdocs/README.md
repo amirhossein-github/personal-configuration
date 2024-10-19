@@ -27,4 +27,8 @@ touch
 
 ### Tutorial Config Section
 - In the tutorial folder, any MD file will be created with the same name in the tutorial section.
-- In tutorial section you can use `./docs/jsdoc/tutorials/tutorial.json` to change title of page. 
+- In tutorial section you can use `./docs/jsdoc/tutorials/tutorial.json` to change title of page.
+
+### Sample File
+- [jsdoc.json](./configs/jsdoc.json)
+- [tutorials.json](./configs/tutorials.json)
